@@ -3,8 +3,9 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, Grid, IconButton, Typography } from "@mui/material";
 import CustomLink from "../customLink";
+import DrawerCard from "./drawerCard";
 
 const styles = () => ({
   styledCheckoutButton: {
@@ -65,26 +66,42 @@ export default function RightTemporaryDrawer() {
         </Box>
       </Box>
 
-      <Button
-        variant="contained"
-        fullWidth
-        sx={{ ...classess.styledCheckoutButton }}
-      >
-        Checkout Now ($280.00)
-      </Button>
+      <Box sx={{ height: "400px", overflowY: 'auto' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <DrawerCard
+              // imageUrl={product.image}
+              productTitle={"Hello world"}
+              price={150.0}
+              quantity={4}
+              totalPrice={600.0}
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
-      {/* <DialogBox /> */}
-
-      <CustomLink pathName="/cart">
+      <Box>
         <Button
-          variant="outlined"
-          onClick={toggleDrawer(false)}
+          variant="contained"
           fullWidth
-          sx={{ ...classess.styledButton }}
+          sx={{ ...classess.styledCheckoutButton }}
         >
-          View Cart
+          Checkout Now ($280.00)
         </Button>
-      </CustomLink>
+
+        {/* <DialogBox /> */}
+
+        <CustomLink pathName="/cart">
+          <Button
+            variant="outlined"
+            onClick={toggleDrawer(false)}
+            fullWidth
+            sx={{ ...classess.styledButton }}
+          >
+            View Cart
+          </Button>
+        </CustomLink>
+      </Box>
     </Box>
   );
 
