@@ -3,9 +3,11 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Divider, Grid, IconButton, Typography } from "@mui/material";
 import CustomLink from "../customLink";
 import DrawerCard from "./drawerCard";
+
+import imgURL from "../../imges/glasses-1.webp";
 
 const styles = () => ({
   styledCheckoutButton: {
@@ -16,7 +18,7 @@ const styles = () => ({
     textTransform: "none",
     height: "40px",
     fontSize: "14px",
-    marginTop: "16px",
+    marginTop: "12px",
 
     "&:hover": {
       backgroundColor: "#E3364E",
@@ -66,17 +68,69 @@ export default function RightTemporaryDrawer() {
         </Box>
       </Box>
 
-      <Box sx={{ height: "400px", overflowY: 'auto' }}>
-        <Grid container spacing={2}>
+      <Divider />
+
+      <Box mt={1} sx={{ height: "442px", overflowY: "auto" }}>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
             <DrawerCard
-              // imageUrl={product.image}
+              imageUrl={imgURL}
               productTitle={"Hello world"}
               price={150.0}
               quantity={4}
               totalPrice={600.0}
             />
           </Grid>
+
+          <Divider sx={{ width: "100%" }} />
+
+          <Grid item xs={12}>
+            <DrawerCard
+              imageUrl={imgURL}
+              productTitle={"Hello world"}
+              price={150.0}
+              quantity={4}
+              totalPrice={600.0}
+            />
+          </Grid>
+
+          <Divider sx={{ width: "100%" }} />
+
+          <Grid item xs={12}>
+            <DrawerCard
+              imageUrl={imgURL}
+              productTitle={"Hello world"}
+              price={150.0}
+              quantity={4}
+              totalPrice={600.0}
+            />
+          </Grid>
+
+          <Divider sx={{ width: "100%" }} />
+
+          <Grid item xs={12}>
+            <DrawerCard
+              imageUrl={imgURL}
+              productTitle={"Hello world"}
+              price={150.0}
+              quantity={4}
+              totalPrice={600.0}
+            />
+          </Grid>
+
+          <Divider sx={{ width: "100%" }} />
+
+          <Grid item xs={12}>
+            <DrawerCard
+              imageUrl={imgURL}
+              productTitle={"Hello world"}
+              price={150.0}
+              quantity={4}
+              totalPrice={600.0}
+            />
+          </Grid>
+
+          <Divider sx={{ width: "100%" }} />
         </Grid>
       </Box>
 
