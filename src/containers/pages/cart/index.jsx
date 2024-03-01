@@ -1,17 +1,47 @@
-import React, { Suspense } from "react";
+import React, { useContext, useEffect } from "react";
 import { useQuery } from "react-query";
 
 import { Box } from "@mui/material";
 
 import ApiLoader from "../../../components/muiLoader";
-// import CartUI from "../../../components/pages/cart";
+import CartUI from "../../../components/pages/cart";
 import { fetchCart, fetchCartProducts } from "../../../utils/api";
-
-const CartUI = React.lazy(() => import("../../../components/pages/cart"));
+import { CartContext } from "../../../contexts/cartContext";
 
 function Cart() {
+  const { cart, setCart } = useContext(CartContext);
+
+  useEffect(() => {
+    console.log("Before Set: ", cart);
+    if (cart) {
+      setCart({
+        name: "Ayesha",
+        age: 23,
+        gender: "Female",
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("After Set: ", cart);
+  }, [cart]);
+
+  // useEffect(() => {
+  //   console.log("Before Set: ", cart);
+
+  //   setCart({
+  //     name: "Ayesha",
+  //     age: 23,
+  //     gender: "Female",
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log("After Set: ", cart);
+  // }, [cart]);
+
   const cartQueryKey = "cart";
-  const productsQueryKey = "products";
+  const productsQueryKey = "cartProducts";
 
   const {
     data: cartData,
@@ -53,14 +83,12 @@ function Cart() {
   });
 
   return (
-    <Suspense fallback={<ApiLoader loadingTitle="Loading cart items..." />}>
-      <CartUI
-        cartProducts={cartProducts}
-        getQuantities={getQuantities}
-        totalPrice={totalPrice}
-        totalAmount={totalAmount}
-      />
-    </Suspense>
+    <CartUI
+      cartProducts={cartProducts}
+      getQuantities={getQuantities}
+      totalPrice={totalPrice}
+      totalAmount={totalAmount}
+    />
   );
 }
 

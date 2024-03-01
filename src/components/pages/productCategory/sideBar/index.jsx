@@ -80,7 +80,7 @@ function SideBar() {
       </Typography>
 
       {categories.map((category) => (
-        <Typography key={category.id} sx={classess.styledTypograpghy}>
+        <Typography key={category} sx={classess.styledTypograpghy}>
           {category}
         </Typography>
       ))}
