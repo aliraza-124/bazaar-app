@@ -1,68 +1,31 @@
-import React, { useContext, useEffect } from "react";
-import { useQuery } from "react-query";
+import React, { useContext } from "react";
 
 import { Box } from "@mui/material";
 
 import ApiLoader from "../../../components/muiLoader";
 import CartUI from "../../../components/pages/cart";
-import { fetchCart, fetchCartProducts } from "../../../utils/api";
 import { CartContext } from "../../../contexts/cartContext";
 
 function Cart() {
-  const { cart, setCart } = useContext(CartContext);
-
-  useEffect(() => {
-    console.log("Before Set: ", cart);
-    if (cart) {
-      setCart({
-        name: "Ayesha",
-        age: 23,
-        gender: "Female",
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log("After Set: ", cart);
-  }, [cart]);
-
-  // useEffect(() => {
-  //   console.log("Before Set: ", cart);
-
-  //   setCart({
-  //     name: "Ayesha",
-  //     age: 23,
-  //     gender: "Female",
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("After Set: ", cart);
-  // }, [cart]);
-
-  const cartQueryKey = "cart";
-  const productsQueryKey = "cartProducts";
-
   const {
-    data: cartData,
-    isLoading: isCartLoading,
-    isError: isCartError,
-    error: cartError,
-  } = useQuery(cartQueryKey, fetchCart);
+    cart,
+    setCart,
 
-  let getQuantities = [];
-  if (cartData && cartData.products) {
-    getQuantities = cartData.products.map((item) => item.quantity);
-  }
+    cartData,
+    isCartLoading,
+    isCartError,
+    cartError,
 
-  const {
-    data: cartProducts,
-    isLoading: isProductsLoading,
-    isError: isProductsError,
-    error: productsError,
-  } = useQuery(productsQueryKey, () => fetchCartProducts(cartData), {
-    enabled: !!cartData,
-  });
+    productQuantities,
+
+    cartProducts,
+    isProductsLoading,
+    isProductsError,
+    productsError,
+
+    totalPrice,
+    totalAmount,
+  } = useContext(CartContext);
 
   if (isCartLoading) return <ApiLoader loadingTitle="Loading cart items..." />;
   if (isCartError)
@@ -72,23 +35,17 @@ function Cart() {
   if (isProductsError)
     return <Box>Error fetching products: {productsError.message}</Box>;
 
-  const totalPrice = [];
-  let totalAmount = 0;
-
-  cartProducts.map((item, index) => {
-    const price = item.price * getQuantities[index];
-    totalPrice.push(price);
-    totalAmount += price;
-    return true;
-  });
-
   return (
-    <CartUI
-      cartProducts={cartProducts}
-      getQuantities={getQuantities}
-      totalPrice={totalPrice}
-      totalAmount={totalAmount}
-    />
+    <>
+      {cart && cart.length > 0 && (
+        <CartUI
+          cartProducts={cart}
+          productQuantities={productQuantities}
+          totalPrice={totalPrice}
+          totalAmount={totalAmount}
+        />
+      )}
+    </>
   );
 }
 
