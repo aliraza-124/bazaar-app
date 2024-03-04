@@ -1,48 +1,24 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { fetchCart, fetchCartProducts } from "../../utils/api";
+import useCartData from "../../hooks/useCartData";
 
 export const CartContext = createContext();
 
 function CartProvider({ children }) {
-  const cartQueryKey = "cart";
-  const productsQueryKey = "cartProducts";
-
   const {
-    data: cartData,
-    isLoading: isCartLoading,
-    isError: isCartError,
-    error: cartError,
-  } = useQuery(cartQueryKey, fetchCart);
-
-  const {
-    data: cartProducts,
-    isLoading: isProductsLoading,
-    isError: isProductsError,
-    error: productsError,
-  } = useQuery(productsQueryKey, () => fetchCartProducts(cartData), {
-    enabled: !!cartData,
-  });
-
-  let productQuantities = [];
-  if (cartData && cartData.products) {
-    productQuantities = cartData.products.map((item) => item.quantity);
-  }
-
-  const totalPrice = [];
-  let totalAmount = 0;
-
-  if (cartProducts) {
-    cartProducts.map((item, index) => {
-      const price = item.price * productQuantities[index];
-      totalPrice.push(price);
-      totalAmount += price;
-      return true;
-    });
-  }
+    cartData,
+    isCartLoading,
+    isCartError,
+    cartError,
+    cartProducts,
+    isProductsLoading,
+    isProductsError,
+    productsError,
+    productQuantities,
+    totalPrice,
+    totalAmount,
+  } = useCartData();
 
   const [cart, setCart] = useState([]);
-
   const [value, setValue] = useState({
     cart,
     setCart,

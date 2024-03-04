@@ -4,10 +4,12 @@ import Drawer from "@mui/material/Drawer";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, Divider, Grid, IconButton, Typography } from "@mui/material";
+
 import CustomLink from "../customLink";
 import DrawerCard from "./drawerCard";
-
-import imgURL from "../../imges/glasses-1.webp";
+import ApiLoader from "../muiLoader";
+import { CartContext } from "../../contexts/cartContext";
+import { useState } from "react";
 
 const styles = () => ({
   styledCheckoutButton: {
@@ -35,9 +37,37 @@ const styles = () => ({
   },
 });
 
-export default function RightTemporaryDrawer() {
+export default function RightCartDrawer() {
   const classess = styles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const {
+    cart,
+    setCart,
+
+    cartData,
+    isCartLoading,
+    isCartError,
+    cartError,
+
+    productQuantities,
+
+    cartProducts,
+    isProductsLoading,
+    isProductsError,
+    productsError,
+
+    totalPrice,
+    totalAmount,
+  } = React.useContext(CartContext);
+
+  if (isCartLoading) return <ApiLoader loadingTitle="Loading cart items..." />;
+  if (isCartError)
+    return <Box>Error fetching cart data: {cartError.message}</Box>;
+  if (isProductsLoading)
+    return <ApiLoader loadingTitle="Loading cart items..." />;
+  if (isProductsError)
+    return <Box>Error fetching products: {productsError.message}</Box>;
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -70,67 +100,27 @@ export default function RightTemporaryDrawer() {
 
       <Divider />
 
-      <Box mt={1} sx={{ height: "442px", overflowY: "auto" }}>
+      <Box mt={1} sx={{ height: "492px", overflowY: "auto" }}>
         <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <DrawerCard
-              imageUrl={imgURL}
-              productTitle={"Hello world"}
-              price={150.0}
-              quantity={4}
-              totalPrice={600.0}
-            />
-          </Grid>
-
-          <Divider sx={{ width: "100%" }} />
-
-          <Grid item xs={12}>
-            <DrawerCard
-              imageUrl={imgURL}
-              productTitle={"Hello world"}
-              price={150.0}
-              quantity={4}
-              totalPrice={600.0}
-            />
-          </Grid>
-
-          <Divider sx={{ width: "100%" }} />
-
-          <Grid item xs={12}>
-            <DrawerCard
-              imageUrl={imgURL}
-              productTitle={"Hello world"}
-              price={150.0}
-              quantity={4}
-              totalPrice={600.0}
-            />
-          </Grid>
-
-          <Divider sx={{ width: "100%" }} />
-
-          <Grid item xs={12}>
-            <DrawerCard
-              imageUrl={imgURL}
-              productTitle={"Hello world"}
-              price={150.0}
-              quantity={4}
-              totalPrice={600.0}
-            />
-          </Grid>
-
-          <Divider sx={{ width: "100%" }} />
-
-          <Grid item xs={12}>
-            <DrawerCard
-              imageUrl={imgURL}
-              productTitle={"Hello world"}
-              price={150.0}
-              quantity={4}
-              totalPrice={600.0}
-            />
-          </Grid>
-
-          <Divider sx={{ width: "100%" }} />
+          {cart?.map((product, index) => {
+            console.log("Inside map: ", product.title);
+            const words = product.title.split(" ");
+            const shortenedTitle = words.slice(0, 3).join(" ");
+            return (
+              <>
+                <Grid item xs={12} key={index}>
+                  <DrawerCard
+                    imageUrl={product?.image}
+                    productTitle={shortenedTitle}
+                    price={product?.price}
+                    quantity={productQuantities?.[index]}
+                    totalPrice={totalPrice?.[index]}
+                  />
+                </Grid>
+                <Divider sx={{ width: "100%" }} />
+              </>
+            );
+          })}
         </Grid>
       </Box>
 
@@ -140,10 +130,8 @@ export default function RightTemporaryDrawer() {
           fullWidth
           sx={{ ...classess.styledCheckoutButton }}
         >
-          Checkout Now ($280.00)
+          Checkout Now (${totalAmount})
         </Button>
-
-        {/* <DialogBox /> */}
 
         <CustomLink pathName="/cart">
           <Button
