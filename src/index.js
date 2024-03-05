@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import CartProvider from "./contexts/cartContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import AppCartProvider from "./contexts/appCartContext";
 
 const queryClient = new QueryClient();
 
@@ -12,9 +13,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <App />
-      </CartProvider>
+      <AppCartProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </AppCartProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

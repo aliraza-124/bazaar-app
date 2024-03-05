@@ -38,3 +38,12 @@ export const fetchCartProducts = async (cartData) => {
 
   return await Promise.all(promises);
 };
+
+export const createCart = async (newProduct) => {
+  const response = await axios.post(
+    "https://fakestoreapi.com/carts",
+    newProduct
+  );
+  console.log("API: ", response.data);
+  return response.data;
+};

@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import RightArea from "./rightArea";
 import ApiLoader from "../../muiLoader";
+import { useQuery } from "react-query";
+import { createCart, fetchCart } from "../../../utils/api";
 
-function ProductDetailsUI({ productDetails, isLoading, isError, error }) {
+function ProductDetailsUI({ productDetails, isLoading, isError, error, handleClick }) {
+  // const createCartQueryKey = "createCartKey";
+
+  // const {
+  //   data: cartData,
+  //   isLoading: isCartLoading,
+  //   isError: isCartError,
+  //   error: cartError,
+  // } = useQuery(createCartQueryKey, () => createCart(newProduct));
+
   if (isLoading) {
     return <ApiLoader loadingTitle="Loading product details..." />;
   }
@@ -41,6 +52,7 @@ function ProductDetailsUI({ productDetails, isLoading, isError, error }) {
           rate={productDetails.rating.rate}
           count={productDetails.rating.count}
           price={productDetails.price}
+          handleClick={handleClick}
         />
       </Grid>
     </Grid>

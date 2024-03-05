@@ -103,7 +103,6 @@ export default function RightCartDrawer() {
       <Box mt={1} sx={{ height: "492px", overflowY: "auto" }}>
         <Grid container spacing={1}>
           {cart?.map((product, index) => {
-            console.log("Inside map: ", product.title);
             const words = product.title.split(" ");
             const shortenedTitle = words.slice(0, 3).join(" ");
             return (

@@ -44,6 +44,7 @@ function CartProvider({ children }) {
       setValue({
         ...value,
         cart: cartProducts,
+        cartData,
         isProductsLoading,
         isCartLoading,
 
